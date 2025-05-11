@@ -1,4 +1,5 @@
 
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,54 +21,57 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Landing Page */}
-            <Route path="/" element={<Index />} />
-            
-            {/* Authentication Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            
-            {/* Dashboard Routes */}
-            <Route 
-              path="/dashboard/investor" 
-              element={
-                <ProtectedRoute requiredRole="investor">
-                  <InvestorDashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/dashboard/entrepreneur" 
-              element={
-                <ProtectedRoute requiredRole="entrepreneur">
-                  <EntrepreneurDashboard />
-                </ProtectedRoute>
-              } 
-            />
-            
-            {/* Profile Routes */}
-            <Route path="/profile/investor/:id" element={<InvestorProfile />} />
-            <Route path="/profile/entrepreneur/:id" element={<EntrepreneurProfile />} />
-            
-            {/* Messages Routes */}
-            <Route path="/messages" element={<Messages />} />
-            <Route path="/messages/:id" element={<Messages />} />
-            
-            {/* 404 Route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+// Make sure to define App as a proper function component
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {/* Landing Page */}
+              <Route path="/" element={<Index />} />
+              
+              {/* Authentication Routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              
+              {/* Dashboard Routes */}
+              <Route 
+                path="/dashboard/investor" 
+                element={
+                  <ProtectedRoute requiredRole="investor">
+                    <InvestorDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/dashboard/entrepreneur" 
+                element={
+                  <ProtectedRoute requiredRole="entrepreneur">
+                    <EntrepreneurDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              {/* Profile Routes */}
+              <Route path="/profile/investor/:id" element={<InvestorProfile />} />
+              <Route path="/profile/entrepreneur/:id" element={<EntrepreneurProfile />} />
+              
+              {/* Messages Routes */}
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/messages/:id" element={<Messages />} />
+              
+              {/* 404 Route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
