@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { MessageSquare, UserRound, Users, ArrowRight } from 'lucide-react';
+import { MessageSquare, UserRound, Users, ArrowRight, Menu } from 'lucide-react';
+import { useIsMobile } from '../../hooks/use-mobile';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,13 @@ interface DashboardLayoutProps {
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const isMobile = useIsMobile();
+  const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
+
+  useEffect(() => {
+    // Close sidebar on mobile by default
+    setSidebarOpen(!isMobile);
+  }, [isMobile]);
 
   const role = user?.role;
   
@@ -42,8 +49,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
   return (
     <div className="flex h-screen bg-background">
+      {/* Mobile overlay */}
+      {isMobile && sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-20"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <div className={`bg-sidebar transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-16'}`}>
+      <div 
+        className={`
+          ${isMobile ? 'fixed z-30' : 'relative'} 
+          ${sidebarOpen ? (isMobile ? 'translate-x-0' : 'w-64') : (isMobile ? '-translate-x-full' : 'w-16')}
+          bg-sidebar transition-all duration-300 h-full
+        `}
+      >
         <div className="flex flex-col h-full p-3">
           <div className="flex items-center justify-between py-2 mb-6">
             {sidebarOpen && (
@@ -97,15 +118,23 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="bg-white shadow z-10">
           <div className="px-4 py-3 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-800">
+            {isMobile && (
+              <button 
+                onClick={() => setSidebarOpen(true)}
+                className="p-2 rounded-md text-gray-500 hover:bg-gray-100"
+              >
+                <Menu className="h-5 w-5" />
+              </button>
+            )}
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-800 ml-auto mr-auto">
               {role === 'investor' ? 'Investor Dashboard' : 'Entrepreneur Dashboard'}
             </h2>
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-600">Welcome, {user?.name}</span>
+            <div className="flex items-center">
+              <span className="text-xs sm:text-sm text-gray-600 hidden sm:inline">Welcome, {user?.name}</span>
             </div>
           </div>
         </header>
-        <main className="flex-1 overflow-auto p-6 bg-gray-50">
+        <main className="flex-1 overflow-auto p-4 sm:p-6 bg-gray-50">
           {children}
         </main>
       </div>

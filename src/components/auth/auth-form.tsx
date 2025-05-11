@@ -44,12 +44,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
+    <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-white rounded-xl shadow-lg">
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
           {mode === 'login' ? 'Sign in to your account' : 'Create your account'}
         </h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-xs sm:text-sm text-gray-600">
           {mode === 'login' 
             ? "Don't have an account? " 
             : "Already have an account? "}
@@ -63,16 +63,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
       </div>
 
       {error && (
-        <div className="bg-red-50 p-4 rounded-md border border-red-200 text-red-800 text-sm">
+        <div className="bg-red-50 p-3 sm:p-4 rounded-md border border-red-200 text-red-800 text-xs sm:text-sm">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="flex space-x-4">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+        <div className="flex space-x-2 sm:space-x-4">
           <button
             type="button"
-            className={`flex-1 py-2 px-4 text-sm font-medium rounded-md border ${
+            className={`flex-1 py-2 px-3 sm:px-4 text-xs sm:text-sm font-medium rounded-md border ${
               role === 'investor'
                 ? 'bg-business-50 border-business-200 text-business-700'
                 : 'bg-white border-gray-200 text-gray-500'
@@ -83,7 +83,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
           </button>
           <button
             type="button"
-            className={`flex-1 py-2 px-4 text-sm font-medium rounded-md border ${
+            className={`flex-1 py-2 px-3 sm:px-4 text-xs sm:text-sm font-medium rounded-md border ${
               role === 'entrepreneur'
                 ? 'bg-business-50 border-business-200 text-business-700'
                 : 'bg-white border-gray-200 text-gray-500'
@@ -96,7 +96,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
 
         {mode === 'register' && (
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="name" className="block text-xs sm:text-sm font-medium text-gray-700">
               Full Name
             </label>
             <input
@@ -106,14 +106,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="form-input mt-1"
+              className="form-input mt-1 w-full text-sm sm:text-base"
               placeholder="Jane Smith"
             />
           </div>
         )}
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-gray-700">
             Email address
           </label>
           <input
@@ -124,13 +124,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="form-input mt-1"
+            className="form-input mt-1 w-full text-sm sm:text-base"
             placeholder="you@example.com"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="block text-xs sm:text-sm font-medium text-gray-700">
             Password
           </label>
           <input
@@ -141,7 +141,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="form-input mt-1"
+            className="form-input mt-1 w-full text-sm sm:text-base"
             placeholder="••••••••"
           />
         </div>
@@ -149,7 +149,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
         <CustomButton
           type="submit"
           isLoading={isLoading}
-          className="w-full"
+          className="w-full mt-2"
         >
           {mode === 'login' ? 'Sign in' : 'Register'}
         </CustomButton>
