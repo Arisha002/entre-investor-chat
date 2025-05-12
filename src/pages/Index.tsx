@@ -9,10 +9,12 @@ const Index = () => {
 
   const handleLogin = () => {
     navigate('/login');
+    console.log("Navigating to login page");
   };
 
   const handleSignup = () => {
     navigate('/register');
+    console.log("Navigating to register page");
   };
 
   return (

@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
@@ -19,7 +19,14 @@ import EntrepreneurProfile from "./pages/EntrepreneurProfile";
 import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 // Make sure to define App as a proper function component
 function App() {
@@ -63,6 +70,9 @@ function App() {
               {/* Messages Routes */}
               <Route path="/messages" element={<Messages />} />
               <Route path="/messages/:id" element={<Messages />} />
+              
+              {/* Fallback redirect for dashboard */}
+              <Route path="/dashboard" element={<Navigate to="/" replace />} />
               
               {/* 404 Route */}
               <Route path="*" element={<NotFound />} />

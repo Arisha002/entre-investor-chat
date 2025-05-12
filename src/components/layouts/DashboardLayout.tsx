@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { MessageSquare, UserRound, Users, ArrowRight, Menu } from 'lucide-react';
 import { useIsMobile } from '../../hooks/use-mobile';
@@ -44,7 +44,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/login', { replace: true });
   };
 
   return (
@@ -80,14 +80,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
           <nav className="space-y-1 flex-1">
             {navigationItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className="flex items-center px-2 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent group"
               >
                 <div className="mr-3 flex-shrink-0">{item.icon}</div>
                 {sidebarOpen && <span className="text-sm font-medium">{item.name}</span>}
-              </a>
+              </Link>
             ))}
           </nav>
 
